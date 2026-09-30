@@ -1,0 +1,39 @@
+# Build outputs and local verification data
+/build/
+/dist/
+/backups/
+/out/
+/logs/
+/crash-reports/
+*.class
+*.jar
+*.zip
+*.log
+
+# Local game installations and third-party dependencies
+/.minecraft/
+/mods/
+/libraries/
+/natives/
+/test-server/
+
+# Editors and Python caches
+.idea/
+.vscode/
+*.iml
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local settings and temporary files
+.env
+.env.*
+!.env.example
+*.tmp
+*.bak
+*.swp
+*~
+.DS_Store
+Thumbs.db
+Desktop.ini

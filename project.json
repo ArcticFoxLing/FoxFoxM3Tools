@@ -1,0 +1,57 @@
+{
+  "name": "FoxFoxM3Tools",
+  "modid": "foxfoxm3tools",
+  "displayName": "狐狐魔金小工具",
+  "version": "1.6.0",
+  "corePlugin": "local.foxfoxm3tools.FoxFoxM3ToolsPlugin",
+  "components": [
+    {
+      "sourceProject": "ManaMetal-Minigame-Auto",
+      "tag": "minigame",
+      "probe": "MinigameRuntimeCheck",
+      "property": "minigameauto"
+    },
+    {
+      "sourceProject": "ManaMetal-RewardBox-AutoClose",
+      "tag": "reward",
+      "probe": "AutoCloseRuntimeCheck",
+      "property": "rewardautoclose"
+    },
+    {
+      "sourceProject": "ManaMetal-Spiritual-AutoReset",
+      "tag": "spiritual",
+      "probe": "SpiritualRuntimeCheck",
+      "property": "spiritualautoreset"
+    },
+    {
+      "sourceProject": "ManaMetal-Tooltip-Columns",
+      "tag": "columns",
+      "probe": "ColumnsRuntimeCheck",
+      "property": "tooltipcolumns"
+    },
+    {
+      "sourceProject": "ManaMetal-Lockpick-Auto",
+      "tag": "lockpick",
+      "probe": "LockpickRuntimeCheck",
+      "property": "lockpickauto"
+    },
+    {
+      "sourceProject": "ManaMetal-Beehive-Client",
+      "tag": "beehive",
+      "probe": "BeehiveRuntimeCheck",
+      "property": "beehiveclient"
+    },
+    {
+      "sourceProject": "FoxFoxM3Tools-Boss-QuickSummon",
+      "tag": "bosssummon",
+      "probe": "BossSummonRuntimeCheck",
+      "property": "bosssummonquick"
+    },
+    {
+      "sourceProject": "FoxFoxM3Tools-Dungeon-Reset-Close",
+      "tag": "dungeonreset",
+      "probe": "DungeonResetRuntimeCheck",
+      "property": "dungeonreset"
+    }
+  ]
+}
