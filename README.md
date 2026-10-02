@@ -6,6 +6,7 @@
 - Credits：白狐铃自己用的小工具套件
 - Mod ID：`foxfoxm3tools`
 - 安装位置：客户端；服务器无需安装本小工具。
+- 许可证：[MIT](LICENSE)，Copyright (c) 2026 ArcticFoxLing。
 
 ## 功能
 

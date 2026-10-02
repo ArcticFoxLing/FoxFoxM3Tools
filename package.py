@@ -46,6 +46,7 @@ with zipfile.ZipFile(bundle, 'w', zipfile.ZIP_DEFLATED) as out:
     out.write(artifact, artifact.name)
     out.write(root / '使用说明.md', '使用说明.md')
     out.write(root / 'README.md', 'README.md')
+    out.write(root / 'LICENSE', 'LICENSE')
     for name in ('verification.json', 'test-results.txt'):
         out.write(root / 'build' / name, 'validation/' + name)
     for fixture in fixtures:
@@ -60,7 +61,7 @@ with zipfile.ZipFile(bundle, 'w', zipfile.ZIP_DEFLATED) as out:
             if path.is_file() and path.suffix in ('.java', '.py', '.info', '.lang'):
                 out.write(path, 'source/' + path.relative_to(root).as_posix())
     for name in ('project.json', 'build.py', 'build.ps1', 'package.py', '使用说明.md',
-                 'README.md', '.gitignore', '.gitattributes'):
+                 'README.md', 'LICENSE', '.gitignore', '.gitattributes'):
         out.write(root / name, 'source/' + name)
 (root / 'dist/SHA256SUMS.txt').write_text(''.join(
     hashlib.sha256(path.read_bytes()).hexdigest() + '  ' + path.name + '\n'
