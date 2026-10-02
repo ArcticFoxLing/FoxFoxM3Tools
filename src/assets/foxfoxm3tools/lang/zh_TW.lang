@@ -67,3 +67,7 @@ bosssummonquick.none=未設定
 bosssummonquick.current=快捷召喚：%s
 bosssummonquick.hint=選擇上方 Boss 後儲存；手持魔力水晶右鍵觸發
 bosssummonquick.locked=此召喚台尚未解鎖快捷 Boss，請重新選擇或先解鎖。
+
+key.categories.foxfoxm3tools=狐狐魔金小工具
+key.foxfoxm3tools.skillRow1=一鍵釋放組合技能欄第一行
+key.foxfoxm3tools.skillRow2=一鍵釋放組合技能欄第二行

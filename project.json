@@ -2,7 +2,7 @@
   "name": "FoxFoxM3Tools",
   "modid": "foxfoxm3tools",
   "displayName": "狐狐魔金小工具",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "corePlugin": "local.foxfoxm3tools.FoxFoxM3ToolsPlugin",
   "components": [
     {
@@ -52,6 +52,12 @@
       "tag": "dungeonreset",
       "probe": "DungeonResetRuntimeCheck",
       "property": "dungeonreset"
+    },
+    {
+      "sourceProject": "FoxFoxM3Tools-Skill-Row-Cast",
+      "tag": "skillrow",
+      "probe": "SkillRowRuntimeCheck",
+      "property": "skillrow"
     }
   ]
 }

@@ -27,7 +27,7 @@ for component in spec['components']:
     assert selected is not None, 'Run client test on this JAR: ' + component['tag']
     fixtures.append(selected)
 packet_fixtures = []
-for tag in ('beehive', 'bosssummon'):
+for tag in ('beehive', 'bosssummon', 'skillrow'):
     source = next((fixture for fixture in fixtures if fixture.name.startswith('client-' + tag)), None)
     if source is None:
         continue

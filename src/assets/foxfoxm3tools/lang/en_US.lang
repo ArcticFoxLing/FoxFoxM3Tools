@@ -67,3 +67,7 @@ bosssummonquick.none=Not set
 bosssummonquick.current=Quick summon: %s
 bosssummonquick.hint=Choose a boss and save. Right-click holding a Mana Crystal.
 bosssummonquick.locked=This altar has not unlocked your saved boss. Choose another boss or unlock it first.
+
+key.categories.foxfoxm3tools=FoxFox ManaMetal Tools
+key.foxfoxm3tools.skillRow1=Cast combination skill row 1
+key.foxfoxm3tools.skillRow2=Cast combination skill row 2

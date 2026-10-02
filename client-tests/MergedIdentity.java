@@ -44,7 +44,7 @@ public final class MergedIdentity {
             require(name.equals(mod.getName()), "Forge Chinese display name: " + id);
             require(name.equals(mod.getMetadata().name), "mod list Chinese name: " + id);
             if ("foxfoxm3tools".equals(id))
-                require("1.6.0".equals(mod.getVersion()) && "1.6.0".equals(mod.getMetadata().version),
+                require("1.7.0".equals(mod.getVersion()) && "1.7.0".equals(mod.getMetadata().version),
                         "merged release version");
             int count = 0;
             for (ModContainer other : loaded.values())
@@ -76,6 +76,7 @@ public final class MergedIdentity {
             require("丢出产物".equals(StatCollector.func_74838_a("beehiveclient.drop"))
                     && "补充蜜蜂".equals(StatCollector.func_74838_a("beehiveclient.refill")), "merged beehive Chinese resources");
             require("设为快捷召唤".equals(StatCollector.func_74838_a("bosssummonquick.save")), "boss shortcut Chinese resource");
+            listener(FMLCommonHandler.instance().bus(), "local.foxfoxm3tools.skill.ClientHooks");
             migrateConfig();
         }
         System.out.println("PASS merged integration: Chinese mod names, one entry per JAR, unique hooks, optional server installation, resources/config");

@@ -29,6 +29,7 @@ public final class ClientProxy extends CommonProxy {
         FMLCommonHandler.instance().bus().register(new ClientGuiHooks());
         registerGuiHooks(new local.foxfoxm3tools.reward.HolyDeviceGuiHooks());
         registerGuiHooks(new local.foxfoxm3tools.dungeon.DungeonResetGuiHooks());
+        FMLCommonHandler.instance().bus().register(new local.foxfoxm3tools.skill.ClientHooks());
     }
 
     private static void registerGuiHooks(Object hooks) {
