@@ -71,3 +71,15 @@ bosssummonquick.locked=此召唤台尚未解锁快捷 Boss，请重新选择或�
 key.categories.foxfoxm3tools=狐狐魔金小工具
 key.foxfoxm3tools.skillRow1=一键释放组合技能栏第一行
 key.foxfoxm3tools.skillRow2=一键释放组合技能栏第二行
+
+outputcollect.off=自动收入背包：关
+outputcollect.on=自动收入背包：开
+outputcollect.full=自动收取：背包空间不足
+outputcollect.paused=自动收取：暂停操作
+outputcollect.stopped=自动收取：已停止
+
+outputcollect.short.off=收产物：关
+outputcollect.short.on=收产物：开
+outputcollect.short.full=背包空间不足
+outputcollect.short.paused=操作暂停
+outputcollect.short.stopped=收产物已停

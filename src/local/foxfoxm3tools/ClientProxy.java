@@ -26,6 +26,7 @@ public final class ClientProxy extends CommonProxy {
         registerGuiHooks(new local.foxfoxm3tools.beehive.ClientHooks());
         registerGuiHooks(new local.foxfoxm3tools.bosssummon.ClientHooks());
         registerGuiHooks(new local.foxfoxm3tools.spiritual.ClientHooks());
+        registerGuiHooks(new local.foxfoxm3tools.outputcollect.ClientHooks());
         FMLCommonHandler.instance().bus().register(new ClientGuiHooks());
         registerGuiHooks(new local.foxfoxm3tools.reward.HolyDeviceGuiHooks());
         registerGuiHooks(new local.foxfoxm3tools.dungeon.DungeonResetGuiHooks());

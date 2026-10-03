@@ -1,6 +1,6 @@
 # 狐狐魔金小工具（FoxFoxM3Tools）
 
-魔法金属的客户端便捷工具套件。当前版本 **1.7.0**，适用于 **Minecraft 1.7.10 / Forge**。
+魔法金属的客户端便捷工具套件。当前版本 **1.8.0**，适用于 **Minecraft 1.7.10 / Forge**。
 
 - 作者：**白狐铃**
 - Credits：白狐铃自己用的小工具套件
@@ -22,8 +22,11 @@
 | 魔王快捷召唤 | 保存 Boss 后，手持魔力水晶右键召唤台即可快捷召唤。 |
 | 地下城重置卷自动关界面 | 手持冷却时间重置卷右键入口时，自动略过入口界面。 |
 | 组合技能栏一键释放 | 两个可自定义快捷键分别释放两行组合技能栏，各最多 7 格；跳过空位和同一行重复技能，保留原施法条件。 |
+| 合成设备产物自动收入背包 | 引力井、黑暗合成、蓝天石碑等 51 类界面增加收取开关；只收成品，整组放不下时等待，关闭界面停止。 |
 
 详细操作、配置和安装方法见 [使用说明](使用说明.md)。
+
+1.8.0 新增的“自动收入背包”在设备界面中手动开启，保持界面打开时工作；各设备的材料、能量和开始制作流程沿用原规则。[完整适配表](产物自动收取适配表.md)列出 51 类容器及成品槽。
 
 1.7.0 新增的两个技能栏快捷键默认未绑定。在 **选项 → 控制 → 狐狐魔金小工具** 中分别设置后，关闭界面即可使用；长按不重复施放，冷却、耗魔、武器和已学技能等限制沿用原魔法金属规则。
 
@@ -41,7 +44,7 @@ FoxFoxFix 可同时安装。替换旧版时只保留一个 FoxFoxM3Tools JAR，�
 src/            模组 Java 源码、语言文件和 mcmod.info
 tests/          无需启动游戏的构建回归检查
 client-tests/   隔离客户端验证源码与启动脚本
-server-tests/   蜂箱、魔王召唤和组合技能栏的服务端回放验证
+server-tests/   蜂箱、魔王召唤、技能栏和产物收取的服务端回放验证
 project.json    版本、模组入口与测试组件配置
 build.py        编译、构建回归和生成 JAR
 build.ps1       PowerShell 构建入口
@@ -87,7 +90,7 @@ $env:MUYA_JAR = 'D:\MinecraftDependencies\Muya_1.11.1.jar'
 python build.py
 ```
 
-ASM、LaunchWrapper 和 LWJGL 仍从 `FOXFOX_WORKSPACE` 下的 `.minecraft/libraries` 读取。成功后生成 `dist/FoxFoxM3Tools-1.7.10-1.7.0.jar`，构建记录写入 `build/`。
+ASM、LaunchWrapper 和 LWJGL 仍从 `FOXFOX_WORKSPACE` 下的 `.minecraft/libraries` 读取。成功后生成 `dist/FoxFoxM3Tools-1.7.10-1.8.0.jar`，构建记录写入 `build/`。
 
 ## 隔离运行验证与发布包
 
@@ -105,6 +108,7 @@ python client-tests/run.py all --with-peer
 python server-tests/run-beehive.py
 python server-tests/run-bosssummon.py
 python server-tests/run-skillrow.py
+python server-tests/run-outputcollect.py
 python package.py
 ```
 

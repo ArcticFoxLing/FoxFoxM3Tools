@@ -373,6 +373,8 @@ public final class MinigameRuntimeCheck {
         }
     }
     private void layout(int expected, String screenshot) throws Exception {
+        if (mc.field_71462_r instanceof GuiContainer
+                && local.foxfoxm3tools.outputcollect.OutputRegistry.supports(((GuiContainer)mc.field_71462_r).field_147002_h)) expected++;
         check(buttons().size()==expected, "original buttons preserved with one auto");
         GuiScreen gui=mc.field_71462_r; gui.func_146280_a(mc,320,240);
         check(buttons().size()==expected, "resize does not duplicate");

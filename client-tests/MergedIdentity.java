@@ -44,7 +44,7 @@ public final class MergedIdentity {
             require(name.equals(mod.getName()), "Forge Chinese display name: " + id);
             require(name.equals(mod.getMetadata().name), "mod list Chinese name: " + id);
             if ("foxfoxm3tools".equals(id))
-                require("1.7.0".equals(mod.getVersion()) && "1.7.0".equals(mod.getMetadata().version),
+                require("1.8.0".equals(mod.getVersion()) && "1.8.0".equals(mod.getMetadata().version),
                         "merged release version");
             int count = 0;
             for (ModContainer other : loaded.values())
@@ -66,7 +66,8 @@ public final class MergedIdentity {
                     "local.foxfoxm3tools.dungeon.DungeonResetGuiHooks",
                     "local.foxfoxm3tools.beehive.ClientHooks",
                     "local.foxfoxm3tools.bosssummon.ClientHooks",
-                    "local.foxfoxm3tools.spiritual.ClientHooks"}) {
+                    "local.foxfoxm3tools.spiritual.ClientHooks",
+                    "local.foxfoxm3tools.outputcollect.ClientHooks"}) {
                 listener(MinecraftForge.EVENT_BUS, name);
                 listener(FMLCommonHandler.instance().bus(), name);
             }

@@ -2,7 +2,7 @@
   "name": "FoxFoxM3Tools",
   "modid": "foxfoxm3tools",
   "displayName": "狐狐魔金小工具",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "corePlugin": "local.foxfoxm3tools.FoxFoxM3ToolsPlugin",
   "components": [
     {
@@ -58,6 +58,12 @@
       "tag": "skillrow",
       "probe": "SkillRowRuntimeCheck",
       "property": "skillrow"
+    },
+    {
+      "sourceProject": "FoxFoxM3Tools-Output-Collect",
+      "tag": "outputcollect",
+      "probe": "OutputCollectRuntimeCheck",
+      "property": "outputcollect"
     }
   ]
 }

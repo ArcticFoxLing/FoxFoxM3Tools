@@ -71,3 +71,15 @@ bosssummonquick.locked=This altar has not unlocked your saved boss. Choose anoth
 key.categories.foxfoxm3tools=FoxFox ManaMetal Tools
 key.foxfoxm3tools.skillRow1=Cast combination skill row 1
 key.foxfoxm3tools.skillRow2=Cast combination skill row 2
+
+outputcollect.off=Collect output: OFF
+outputcollect.on=Collect output: ON
+outputcollect.full=Collect: inventory full
+outputcollect.paused=Collect: paused
+outputcollect.stopped=Collect: stopped
+
+outputcollect.short.off=Collect: OFF
+outputcollect.short.on=Collect: ON
+outputcollect.short.full=Bag full
+outputcollect.short.paused=Paused
+outputcollect.short.stopped=Stopped
