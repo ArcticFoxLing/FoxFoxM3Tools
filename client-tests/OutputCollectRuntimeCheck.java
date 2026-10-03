@@ -70,7 +70,7 @@ public final class OutputCollectRuntimeCheck {
             for(int i=0;i<OutputFixtures.ENTRIES.length;i++) {
                 setup(i,0,640,360);fixture.seed();
                 NBTTagCompound before=snapshot();update(8);
-                check(network.clicks.isEmpty()&&before.equals(snapshot()),"default OFF makes no clicks");
+                check(network.clicks.isEmpty()&&before.equals(snapshot()),"OFF makes no clicks");
                 check(button().field_146125_m,"button visible at normal scale");
                 check(button().field_146126_j.equals("自动收入背包：关"),"localized label");
                 int[] outputs=OutputRegistry.slots(fixture.container,player);
@@ -94,7 +94,7 @@ public final class OutputCollectRuntimeCheck {
                 check(network.clicks.isEmpty()&&before.equals(snapshot()),"full inventory leaves all items untouched");
                 check(button().field_146126_j.contains("空间不足"),"full inventory status");saveCase("full",before);
             }
-            report.add("PASS: all "+OutputFixtures.ENTRIES.length+" original containers/GUIs; default off, output-only transfers, input preservation, full inventory, unique buttons and reinitialization");
+            report.add("PASS: all "+OutputFixtures.ENTRIES.length+" original containers/GUIs; output-only transfers, input preservation, full inventory, unique buttons and reinitialization");
             int gravity=find("ContainerManaGravityWell");
             setup(gravity,0,640,360);fillInventory();
             ItemStack product=OutputFixtures.tagged(new ItemStack(Items.field_151045_i,16),"same");fixture.inventory.func_70299_a(12,product.func_77946_l());
@@ -113,7 +113,7 @@ public final class OutputCollectRuntimeCheck {
             before=snapshot();toggle();update(15);check(before.equals(snapshot())&&network.clicks.isEmpty(),"user cursor pauses automation");
             player.field_71071_by.func_70437_b(null);before=snapshot();update(10);check(fixture.inventory.func_70301_a(12)==null,"cursor cleared resumes");saveCase("cursor-resume",before);
             fixture.inventory.func_70299_a(12,product.func_77946_l());network.clicks.clear();toggle();before=snapshot();update(15);check(before.equals(snapshot())&&network.clicks.isEmpty(),"OFF stops new products");
-            toggle();mc.func_147108_a(null);network.clicks.clear();update(15);check(network.clicks.isEmpty(),"closing GUI cancels automation");
+            toggle();mc.func_147108_a(null);network.clicks.clear();update(15);check(network.clicks.isEmpty(),"closed GUI sends no clicks");
             setup(gravity,0,640,360);fixture.seed();before=snapshot();toggle();fixture.container.field_75152_c=0;update(12);check(network.clicks.isEmpty(),"pending window waits");
             fixture.container.field_75152_c=7;player.field_71070_bA=player.field_71069_bz;update(12);check(network.clicks.isEmpty(),"changed container cancels");
             for(String name:new String[]{"ContainerSpinningWheel","ContainerTileEntityBase"}) {
@@ -128,12 +128,13 @@ public final class OutputCollectRuntimeCheck {
             setup(find("ContainerEternalAnvil"),0,640,360);fixture.seed();
             ((TileEntityEternalAnvil)fixture.tile).jobType=2;before=snapshot();toggle();update(15);check(before.equals(snapshot())&&network.clicks.isEmpty(),"reforge workpiece protected");
             ((TileEntityEternalAnvil)fixture.tile).jobType=0;fixture.inventory.func_70299_a(27,new ItemStack(Items.field_151055_y,1));before=snapshot();update(15);check(before.equals(snapshot())&&network.clicks.isEmpty(),"unrelated reforge input protected");
+            sessionMemory(gravity);
             for(String name:new String[]{"ContainerManaGravityWell","ContainerTileEntityDarkMain","ContainerTileEntityBlueSky","ContainerClothesTailor","ContainerCookingTable"}) {
                 setup(find(name),0,320,240);check(button().field_146125_m,"compact button visible");checkLayout();
             }
             setup(gravity,0,640,360);mc.func_147108_a(new GuiScreen());update(5);
             check(!OutputRegistry.supports(player.field_71069_bz),"player inventory not a crafting target");
-            report.add("PASS: consecutive products; NBT, all-or-nothing capacity, three-stack merge, hotbar-only space, cursor/manual pause, close/cancel, variant slot ordering, empty bottles and working reforge protections, compact layouts");
+            report.add("PASS: consecutive products; NBT, all-or-nothing capacity, three-stack merge, hotbar-only space, cursor/manual pause, closed-container protection, variant slot ordering, empty bottles and working reforge protections, compact layouts");
             NBTTagCompound data=new NBTTagCompound();data.func_74782_a("Cases",cases);
             try(OutputStream out=Files.newOutputStream(root.resolve("packet-cases.nbt"))){CompressedStreamTools.func_74799_a(data,out);}
             report.add("PASS: exported "+cases.func_74745_c()+" actual client packet sequences for authoritative server replay");
@@ -143,6 +144,10 @@ public final class OutputCollectRuntimeCheck {
     }
     private int find(String name){for(int i=0;i<OutputFixtures.ENTRIES.length;i++)if(OutputFixtures.ENTRIES[i].container.endsWith("."+name))return i;throw new AssertionError(name);}
     private void setup(int index,int variant,int width,int height)throws Exception {
+        setup(index,variant,width,height,false);
+    }
+    private void setup(int index,int variant,int width,int height,boolean remember)throws Exception {
+        boolean first=gui==null;
         fixtureIndex=index;Arrays.fill(player.field_71071_by.field_70462_a,null);player.field_71071_by.func_70437_b(null);
         fixture=new OutputFixtures(OutputFixtures.ENTRIES[index],mc.field_71441_e,player,variant);
         java.lang.reflect.Constructor<?> ctor=Class.forName(fixture.entry.gui).getConstructors()[0];
@@ -157,6 +162,62 @@ public final class OutputCollectRuntimeCheck {
         }
         gui=(GuiContainer)ctor.newInstance(args);gui.field_147002_h=fixture.container;
         mc.func_147108_a(gui);gui.func_146280_a(mc,width,height);network.clicks.clear();update(1);
+        if(first)check(button().field_146126_j.equals("自动收入背包：关"),"session initially OFF");
+        // Existing item-transfer cases start from an explicit OFF setting. The memory
+        // scenarios below deliberately keep the real switch across GUI changes.
+        if(!remember&&!button().field_146126_j.endsWith("关"))toggle();
+    }
+    private void sessionMemory(int gravity)throws Exception {
+        setup(gravity,0,640,360);toggle();fixture.seed();
+        mc.func_147108_a(null);player.field_71070_bA=player.field_71069_bz;
+        network.clicks.clear();NBTTagCompound closed=snapshot();update(15);
+        check(network.clicks.isEmpty()&&closed.equals(snapshot()),"close preserves original machine and sends no stale clicks");
+        mc.func_147108_a(new GuiScreen());update(10);
+        check(network.clicks.isEmpty(),"unrelated screen never collects");
+        for(String name:new String[]{"ContainerManaGravityWell","ContainerTileEntityDarkMain","ContainerTileEntityBlueSky"}) {
+            setup(find(name),0,640,360,true);fixture.seed();
+            check(button().field_146126_j.endsWith("开"),"switch remembered on new supported GUI "+name);
+            NBTTagCompound before=snapshot();update(15);
+            for(int id:fixture.entry.outputs)check(fixture.inventory.func_70301_a(id)==null,"new machine auto collected without toggle");
+            check(!network.clicks.isEmpty(),"remembered ON performs real clicks");
+            preservedInputs(before);saveCase("remembered-switch",before);
+        }
+        // A fresh window ID must be used after reopening, never the previous window.
+        int oldWindow=fixture.container.field_75152_c;
+        setup(gravity,0,640,360,true);fixture.container.field_75152_c=oldWindow+13;fixture.seed();update(15);
+        check(!network.clicks.isEmpty(),"new window receives collection");
+        for(C0EPacketClickWindow packet:network.clicks)check(packet.func_149548_c()==oldWindow+13,"only current window ID used");
+        network.clicks.clear();
+        toggle();mc.func_147108_a(null);update(2);
+        setup(gravity,0,640,360,true);fixture.seed();closed=snapshot();update(15);
+        check(button().field_146126_j.endsWith("关")&&closed.equals(snapshot())&&network.clicks.isEmpty(),"manual OFF remembered after reopening");
+        toggle();fillInventory();update(15);check(button().field_146126_j.contains("空间不足"),"full state before changing GUI");
+        setup(find("ContainerTileEntityBlueSky"),0,640,360,true);fixture.seed();
+        check(button().field_146126_j.endsWith("开"),"full state cleared but ON remembered");
+        NBTTagCompound before=snapshot();update(15);saveCase("remembered-after-full",before);
+        setup(gravity,0,640,360,true);fixture.seed();player.field_71071_by.func_70437_b(new ItemStack(Items.field_151055_y,1));
+        update(15);check(button().field_146126_j.contains("暂停"),"cursor pauses remembered collection");
+        player.field_71071_by.func_70437_b(null);mc.func_147108_a(new GuiScreen());update(2);
+        setup(gravity,0,640,360,true);fixture.seed();before=snapshot();update(15);saveCase("remembered-after-cursor",before);
+        // Incompatible slot layouts stop the switch, rather than leaking it into the next GUI.
+        setup(gravity,0,640,360,true);fixture.container.field_75151_b.remove(fixture.container.field_75151_b.size()-1);update(15);
+        check(button().field_146126_j.contains("停止"),"incompatible container stops switch");
+        setup(gravity,0,640,360,true);check(button().field_146126_j.endsWith("关"),"incompatible stop stays OFF across screens");
+        toggle();mc.func_147108_a(null);mc.field_71439_g=null;mc.field_71441_e=null;update(1);
+        mc.field_71441_e=(WorldClient)player.field_70170_p;mc.field_71439_g=player;
+        setup(gravity,0,640,360,true);check(button().field_146126_j.endsWith("关"),"disconnect resets switch even without device GUI");
+        toggle();mc.func_147108_a(null);
+        player=new EntityClientPlayerMP(mc,mc.field_71441_e,mc.func_110432_I(),network,new StatFileWriter());
+        player.func_70107_b(2.5,100,1.5);mc.field_71439_g=player;
+        setup(gravity,0,640,360,true);check(button().field_146126_j.endsWith("关"),"player replacement resets switch before next tick");
+        toggle();mc.func_147108_a(null);
+        WorldClient world=new WorldClient(network,new WorldSettings(0,WorldSettings.GameType.SURVIVAL,false,false,WorldType.field_77138_c),0,EnumDifficulty.PEACEFUL,mc.field_71424_I);
+        mc.field_71441_e=world;player.field_70170_p=world;world.func_73025_a(0,0,true);
+        world.func_147465_d(1,100,1,net.minecraft.init.Blocks.field_150486_ae,0,3);
+        setup(gravity,0,640,360,true);check(button().field_146126_j.endsWith("关"),"world replacement resets switch before next tick");
+        toggle();mc.func_147108_a(null);player.func_70606_j(0F);update(1);player.func_70606_j(20F);
+        setup(gravity,0,640,360,true);check(button().field_146126_j.endsWith("关"),"death resets switch with no GUI");
+        report.add("PASS: remembered ON/OFF across closing, unrelated screens and three machine types; only current window receives clicks; full/cursor recovery; incompatible data, disconnect, player/world replacement and death reset");
     }
     private void fillInventory(){for(int i=0;i<36;i++)player.field_71071_by.field_70462_a[i]=new ItemStack(Items.field_151055_y,64);}
     @SuppressWarnings("unchecked") private List<GuiButton> buttons(){return ReflectionHelper.getPrivateValue(GuiScreen.class,gui,"field_146292_n","buttonList");}

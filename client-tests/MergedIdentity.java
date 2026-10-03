@@ -44,7 +44,7 @@ public final class MergedIdentity {
             require(name.equals(mod.getName()), "Forge Chinese display name: " + id);
             require(name.equals(mod.getMetadata().name), "mod list Chinese name: " + id);
             if ("foxfoxm3tools".equals(id))
-                require("1.10.0".equals(mod.getVersion()) && "1.10.0".equals(mod.getMetadata().version),
+                require("1.10.1".equals(mod.getVersion()) && "1.10.1".equals(mod.getMetadata().version),
                         "merged release version");
             int count = 0;
             for (ModContainer other : loaded.values())

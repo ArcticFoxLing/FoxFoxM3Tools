@@ -12,11 +12,14 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.StatCollector;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import org.lwjgl.input.Mouse;
 
 public final class ClientHooks {
+    private World world;
+    private EntityPlayer owner;
     private GuiContainer gui;
     private Container container;
     private CollectButton button;
@@ -31,10 +34,11 @@ public final class ClientHooks {
     @SubscribeEvent(priority=EventPriority.LOWEST)
     @SuppressWarnings("unchecked")
     public void init(GuiScreenEvent.InitGuiEvent.Post event) {
+        syncWorld(Minecraft.func_71410_x());
         if (!(event.gui instanceof GuiContainer)) return;
         GuiContainer next = (GuiContainer)event.gui;
         if (!OutputRegistry.supports(next.field_147002_h)) return;
-        if (gui != next || container != next.field_147002_h) reset();
+        if (gui != next || container != next.field_147002_h) clearScreen();
         gui = next;
         container = next.field_147002_h;
         for (Iterator<?> it = event.buttonList.iterator(); it.hasNext();)
@@ -49,6 +53,7 @@ public final class ClientHooks {
     public void click(GuiScreenEvent.ActionPerformedEvent.Pre event) {
         if (!(event.button instanceof CollectButton)) return;
         event.setCanceled(true);
+        syncWorld(Minecraft.func_71410_x());
         if (event.gui != gui || event.button != button || !button.field_146124_l) return;
         enabled = !enabled;
         state = enabled ? "on" : "off";
@@ -57,10 +62,12 @@ public final class ClientHooks {
     }
 
     @SubscribeEvent public void tick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END || gui == null) return;
+        if (event.phase != TickEvent.Phase.END) return;
         final Minecraft mc = Minecraft.func_71410_x();
+        syncWorld(mc);
+        if (gui == null) return;
         if (mc.field_71462_r != gui || mc.field_71439_g == null || mc.field_71441_e == null
-                || mc.field_71439_g.field_71070_bA != container) { reset(); return; }
+                || mc.field_71439_g.field_71070_bA != container) { clearScreen(); return; }
         if (!enabled || !ready(mc)) { refresh(); return; }
         if (mc.field_71439_g.field_71071_by.func_70445_o() != null
                 || (Mouse.isCreated() && (Mouse.isButtonDown(0) || Mouse.isButtonDown(1)))) {
@@ -88,7 +95,8 @@ public final class ClientHooks {
 
     @SubscribeEvent(priority=EventPriority.LOWEST)
     public void open(GuiOpenEvent event) {
-        if (event.gui != gui) reset();
+        syncWorld(Minecraft.func_71410_x());
+        if (event.gui != gui) clearScreen();
     }
 
     private boolean ready(Minecraft mc) {
@@ -105,8 +113,19 @@ public final class ClientHooks {
                 + (button.field_146120_f < 116 ? "short." : "") + state);
     }
 
-    private void reset() {
-        gui = null; container = null; button = null; enabled = false; delay = 4; state = "off";
+    private void syncWorld(Minecraft mc) {
+        if (world != mc.field_71441_e || owner != mc.field_71439_g
+                || (owner != null && !owner.func_70089_S())) {
+            world = mc.field_71441_e;
+            owner = mc.field_71439_g;
+            enabled = false;
+            clearScreen();
+        }
+    }
+
+    private void clearScreen() {
+        // Remember the session's switch, but never retain a closed container or its window ID.
+        gui = null; container = null; button = null; delay = 4; state = enabled ? "on" : "off";
     }
 
     private void place(List<?> buttons) {

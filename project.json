@@ -2,7 +2,7 @@
   "name": "FoxFoxM3Tools",
   "modid": "foxfoxm3tools",
   "displayName": "狐狐魔金小工具",
-  "version": "1.10.0",
+  "version": "1.10.1",
   "corePlugin": "local.foxfoxm3tools.FoxFoxM3ToolsPlugin",
   "components": [
     {
