@@ -83,7 +83,8 @@ if SPEC['name'] == 'FoxFoxFix':
     suites = [('modularui', 'TransformRegression', [WORKSPACE / '.minecraft/mods/modularui2-2.3.90-1.7.10.jar', 'CLASSES']),
               ('scythe', 'ScytheRegression', [target, 'CLASSES'])]
 else:
-    suites = [('minigame', 'AnvilSolverRegression', []),
+    suites = [('chess', 'local.foxfoxm3tools.chess.EngineCheck', []),
+              ('minigame', 'AnvilSolverRegression', []),
               ('columns', 'LayoutRegression', []),
               ('columns', 'TransformRegression', [DEPS[3]])]
 suites.append(('integration', 'JarIdentityCheck', [artifact, SPEC['modid'], SPEC['displayName'], SPEC['corePlugin']]))

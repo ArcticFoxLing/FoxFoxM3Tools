@@ -102,7 +102,7 @@ def run_case(case):
                                    creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0)
         print('Isolated client:', case['tag'], 'PID', process.pid, flush=True)
         try:
-            code = process.wait(timeout=300)
+            code = process.wait(timeout=900 if case['tag'] == 'chess' else 300)
         except subprocess.TimeoutExpired:
             process.kill(); process.wait()
             raise SystemExit('Client timeout: ' + str(fixture / 'console.log'))
@@ -113,6 +113,10 @@ def run_case(case):
     record = {'status': 'PASS', 'case': case['tag'], 'manametal': '8.0.7' if 'foxfoxm3tools' in ids else None,
               'artifacts': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in artifacts},
               'identityAndRegistration': 'PASS'}
+    if case['tag'] == 'chess':
+        assert 'PASS: full game completed via real client/server packets' in result
+        record['scope'] = 'key controls and full game'
+        record['transport'] = 'isolated integrated server and original block-use packets'
     if case['tag'] in ('beehive', 'bosssummon', 'skillrow', 'outputcollect'):
         record['packetCasesSha256'] = hashlib.sha256((fixture / 'packet-cases.nbt').read_bytes()).hexdigest()
     (fixture / 'verification.json').write_text(json.dumps(record, indent=2) + '\n', encoding='utf-8')

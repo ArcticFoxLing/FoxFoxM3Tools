@@ -22,6 +22,8 @@ for component in spec['components']:
         data = json.loads(record.read_text('utf-8'))
         if (data.get('status') == 'PASS' and data.get('artifacts', {}).get(artifact.name) == digest
                 and 'status=PASS' in (fixture / 'result.txt').read_text('utf-8')):
+            if component['tag'] == 'chess':
+                assert data.get('scope') == 'key controls and full game', 'Run the complete chess game test'
             selected = fixture
             break
     assert selected is not None, 'Run client test on this JAR: ' + component['tag']

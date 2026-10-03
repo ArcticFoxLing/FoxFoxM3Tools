@@ -50,6 +50,8 @@ def reset_output(path):
 
 mods = fixture / 'mods'
 reset_output(mods)
+# Fixtures substitute many tile types at the same coordinates; never reuse that world.
+reset_output(fixture / 'outputcollect-replay-fixture')
 for pattern in ('*Muya*.jar', 'lwjgl3ify-*.jar', '+unimixins-*.jar', 'gtnhlib-*.jar'):
     matches = list((source / 'mods').glob(pattern))
     assert len(matches) == 1, 'Expected one dependency for ' + pattern

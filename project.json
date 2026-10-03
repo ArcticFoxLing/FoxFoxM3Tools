@@ -2,7 +2,7 @@
   "name": "FoxFoxM3Tools",
   "modid": "foxfoxm3tools",
   "displayName": "狐狐魔金小工具",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "corePlugin": "local.foxfoxm3tools.FoxFoxM3ToolsPlugin",
   "components": [
     {
@@ -64,6 +64,18 @@
       "tag": "outputcollect",
       "probe": "OutputCollectRuntimeCheck",
       "property": "outputcollect"
+    },
+    {
+      "sourceProject": "ManaMetal-Curse-Auto",
+      "tag": "curse",
+      "probe": "CurseRuntimeCheck",
+      "property": "curseauto"
+    },
+    {
+      "sourceProject": "ManaMetal-Chess-Auto",
+      "tag": "chess",
+      "probe": "ChessRuntimeCheck",
+      "property": "chessauto"
     }
   ]
 }

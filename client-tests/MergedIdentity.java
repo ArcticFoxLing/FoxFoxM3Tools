@@ -35,7 +35,7 @@ public final class MergedIdentity {
         Map<String, ModContainer> loaded = Loader.instance().getIndexedModList();
         for (String id : new String[] {"manametalminigameauto", "manametalrewardautoclose",
                 "manametalspiritualautoreset", "manametaltooltipcolumns", "manametallockpickauto",
-                "manametalbeehiveclient", "manametalbeehiveauto"})
+                "manametalbeehiveclient", "manametalbeehiveauto", "manametalcurseauto", "manametalchessauto"})
             require(!loaded.containsKey(id), "old standalone entry absent: " + id);
         for (String id : System.getProperty("foxfox.test.mods").split(",")) {
             ModContainer mod = loaded.get(id);
@@ -44,7 +44,7 @@ public final class MergedIdentity {
             require(name.equals(mod.getName()), "Forge Chinese display name: " + id);
             require(name.equals(mod.getMetadata().name), "mod list Chinese name: " + id);
             if ("foxfoxm3tools".equals(id))
-                require("1.8.0".equals(mod.getVersion()) && "1.8.0".equals(mod.getMetadata().version),
+                require("1.9.0".equals(mod.getVersion()) && "1.9.0".equals(mod.getMetadata().version),
                         "merged release version");
             int count = 0;
             for (ModContainer other : loaded.values())
@@ -67,7 +67,9 @@ public final class MergedIdentity {
                     "local.foxfoxm3tools.beehive.ClientHooks",
                     "local.foxfoxm3tools.bosssummon.ClientHooks",
                     "local.foxfoxm3tools.spiritual.ClientHooks",
-                    "local.foxfoxm3tools.outputcollect.ClientHooks"}) {
+                    "local.foxfoxm3tools.outputcollect.ClientHooks",
+                    "local.foxfoxm3tools.curse.ClientHooks",
+                    "local.foxfoxm3tools.chess.ClientHooks"}) {
                 listener(MinecraftForge.EVENT_BUS, name);
                 listener(FMLCommonHandler.instance().bus(), name);
             }
@@ -78,6 +80,14 @@ public final class MergedIdentity {
                     && "补充蜜蜂".equals(StatCollector.func_74838_a("beehiveclient.refill")), "merged beehive Chinese resources");
             require("设为快捷召唤".equals(StatCollector.func_74838_a("bosssummonquick.save")), "boss shortcut Chinese resource");
             listener(FMLCommonHandler.instance().bus(), "local.foxfoxm3tools.skill.ClientHooks");
+            require("自动：关".equals(StatCollector.func_74838_a("curseauto.off")), "merged curse language resource");
+            int chessKeys = 0;
+            for (net.minecraft.client.settings.KeyBinding key : Minecraft.func_71410_x().field_71474_y.field_74324_K) {
+                if (!"key.mmchess.toggle".equals(key.func_151464_g())) continue;
+                chessKeys++;
+                require("key.categories.foxfoxm3tools".equals(key.func_151466_e()), "chess control in merged category");
+            }
+            require(chessKeys == 1, "one chess binding, legacy settings key preserved");
             migrateConfig();
         }
         System.out.println("PASS merged integration: Chinese mod names, one entry per JAR, unique hooks, optional server installation, resources/config");

@@ -83,3 +83,16 @@ outputcollect.short.on=收产物：开
 outputcollect.short.full=背包空间不足
 outputcollect.short.paused=操作暂停
 outputcollect.short.stopped=收产物已停
+
+curseauto.off=自动：关
+curseauto.on=§a自动：开
+curseauto.done=已完成
+curseauto.unavailable=不可用
+curseauto.off.short=自动
+curseauto.on.short=§a停止
+curseauto.done.short=已完成
+curseauto.unavailable.short=不可用
+curseauto.incompatible=诅咒自动已停止：小游戏数据或接口不兼容，请手动完成。
+
+key.mmchess.toggle=智慧试炼自动下棋 开/关
+key.categories.mmchess=魔法金属智慧自动

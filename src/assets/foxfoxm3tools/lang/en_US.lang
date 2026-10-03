@@ -83,3 +83,16 @@ outputcollect.short.on=Collect: ON
 outputcollect.short.full=Bag full
 outputcollect.short.paused=Paused
 outputcollect.short.stopped=Stopped
+
+curseauto.off=Auto: OFF
+curseauto.on=§aAuto: ON
+curseauto.done=Done
+curseauto.unavailable=Unavailable
+curseauto.off.short=Auto
+curseauto.on.short=§aStop
+curseauto.done.short=Done
+curseauto.unavailable.short=N/A
+curseauto.incompatible=Curse automation stopped: incompatible puzzle data or interface. Please finish manually.
+
+key.mmchess.toggle=Toggle wisdom trial auto chess
+key.categories.mmchess=ManaMetal Auto Chess
