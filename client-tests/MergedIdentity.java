@@ -35,7 +35,7 @@ public final class MergedIdentity {
         Map<String, ModContainer> loaded = Loader.instance().getIndexedModList();
         for (String id : new String[] {"manametalminigameauto", "manametalrewardautoclose",
                 "manametalspiritualautoreset", "manametaltooltipcolumns", "manametallockpickauto",
-                "manametalbeehiveclient", "manametalbeehiveauto", "manametalcurseauto", "manametalchessauto"})
+                "manametalbeehiveclient", "manametalbeehiveauto", "manametalcurseauto", "manametalchessauto", "manametalwaterauto"})
             require(!loaded.containsKey(id), "old standalone entry absent: " + id);
         for (String id : System.getProperty("foxfox.test.mods").split(",")) {
             ModContainer mod = loaded.get(id);
@@ -44,7 +44,7 @@ public final class MergedIdentity {
             require(name.equals(mod.getName()), "Forge Chinese display name: " + id);
             require(name.equals(mod.getMetadata().name), "mod list Chinese name: " + id);
             if ("foxfoxm3tools".equals(id))
-                require("1.9.0".equals(mod.getVersion()) && "1.9.0".equals(mod.getMetadata().version),
+                require("1.10.0".equals(mod.getVersion()) && "1.10.0".equals(mod.getMetadata().version),
                         "merged release version");
             int count = 0;
             for (ModContainer other : loaded.values())
@@ -69,7 +69,8 @@ public final class MergedIdentity {
                     "local.foxfoxm3tools.spiritual.ClientHooks",
                     "local.foxfoxm3tools.outputcollect.ClientHooks",
                     "local.foxfoxm3tools.curse.ClientHooks",
-                    "local.foxfoxm3tools.chess.ClientHooks"}) {
+                    "local.foxfoxm3tools.chess.ClientHooks",
+                    "local.foxfoxm3tools.water.ClientHooks"}) {
                 listener(MinecraftForge.EVENT_BUS, name);
                 listener(FMLCommonHandler.instance().bus(), name);
             }
@@ -88,6 +89,14 @@ public final class MergedIdentity {
                 require("key.categories.foxfoxm3tools".equals(key.func_151466_e()), "chess control in merged category");
             }
             require(chessKeys == 1, "one chess binding, legacy settings key preserved");
+            int waterKeys = 0;
+            for (net.minecraft.client.settings.KeyBinding key : Minecraft.func_71410_x().field_71474_y.field_74324_K) {
+                if (!"key.mmwater.toggle".equals(key.func_151464_g())) continue;
+                waterKeys++;
+                require("key.categories.foxfoxm3tools".equals(key.func_151466_e()), "water control in merged category");
+                require(!key.func_151464_g().equals(StatCollector.func_74838_a(key.func_151464_g())), "water control translated");
+            }
+            require(waterKeys == 1, "one water binding, legacy settings key preserved");
             migrateConfig();
         }
         System.out.println("PASS merged integration: Chinese mod names, one entry per JAR, unique hooks, optional server installation, resources/config");

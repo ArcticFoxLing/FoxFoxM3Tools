@@ -96,3 +96,6 @@ curseauto.incompatible=Curse automation stopped: incompatible puzzle data or int
 
 key.mmchess.toggle=Toggle wisdom trial auto chess
 key.categories.mmchess=ManaMetal Auto Chess
+
+key.mmwater.toggle=Water maze: Start / Stop
+key.categories.mmwater=ManaMetal Water Maze Auto

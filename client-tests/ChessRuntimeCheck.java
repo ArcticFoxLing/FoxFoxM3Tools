@@ -97,7 +97,7 @@ public final class ChessRuntimeCheck {
                 muted(mc);
                 local.foxfoxvalidation.MergedIdentity.verify();
                 ModContainer mod=Loader.instance().getIndexedModList().get("foxfoxm3tools");
-                check(mod!=null&&mod.getVersion().equals("1.9.0"),"release loaded by Forge");
+                check(mod!=null&&mod.getVersion().equals("1.10.0"),"release loaded by Forge");
                 check(NetworkRegistry.INSTANCE.registry().get(mod).check(Collections.<String,String>emptyMap(),Side.SERVER),"client-only handshake");
                 check(!ClientCommandHandler.instance.func_71555_a().containsKey("mmchess"),"chat command removed");
                 Field field=cpw.mods.fml.common.eventhandler.EventBus.class.getDeclaredField("listeners");field.setAccessible(true);

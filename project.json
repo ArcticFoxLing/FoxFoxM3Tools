@@ -2,7 +2,7 @@
   "name": "FoxFoxM3Tools",
   "modid": "foxfoxm3tools",
   "displayName": "狐狐魔金小工具",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "corePlugin": "local.foxfoxm3tools.FoxFoxM3ToolsPlugin",
   "components": [
     {
@@ -76,6 +76,12 @@
       "tag": "chess",
       "probe": "ChessRuntimeCheck",
       "property": "chessauto"
+    },
+    {
+      "sourceProject": "ManaMetal-Water-Maze-Auto",
+      "tag": "water",
+      "probe": "WaterRuntimeCheck",
+      "property": "waterauto"
     }
   ]
 }

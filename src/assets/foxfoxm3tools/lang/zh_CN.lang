@@ -96,3 +96,6 @@ curseauto.incompatible=诅咒自动已停止：小游戏数据或接口不兼容
 
 key.mmchess.toggle=智慧试炼自动下棋 开/关
 key.categories.mmchess=魔法金属智慧自动
+
+key.mmwater.toggle=水路迷宫自动：开始／停止
+key.categories.mmwater=魔法金属水路迷宫自动

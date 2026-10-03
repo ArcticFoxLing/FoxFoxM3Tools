@@ -24,6 +24,8 @@ for component in spec['components']:
                 and 'status=PASS' in (fixture / 'result.txt').read_text('utf-8')):
             if component['tag'] == 'chess':
                 assert data.get('scope') == 'key controls and full game', 'Run the complete chess game test'
+            if component['tag'] == 'water':
+                assert data.get('scope') == 'key controls and three complete randomized water trials with original rewards', 'Run all three water trials'
             selected = fixture
             break
     assert selected is not None, 'Run client test on this JAR: ' + component['tag']

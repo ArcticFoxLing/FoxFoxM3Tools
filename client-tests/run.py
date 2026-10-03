@@ -102,7 +102,7 @@ def run_case(case):
                                    creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0)
         print('Isolated client:', case['tag'], 'PID', process.pid, flush=True)
         try:
-            code = process.wait(timeout=900 if case['tag'] == 'chess' else 300)
+            code = process.wait(timeout=900 if case['tag'] in ('chess', 'water') else 300)
         except subprocess.TimeoutExpired:
             process.kill(); process.wait()
             raise SystemExit('Client timeout: ' + str(fixture / 'console.log'))
@@ -117,6 +117,13 @@ def run_case(case):
         assert 'PASS: full game completed via real client/server packets' in result
         record['scope'] = 'key controls and full game'
         record['transport'] = 'isolated integrated server and original block-use packets'
+    if case['tag'] == 'water':
+        for round_index in range(3):
+            assert 'PASS round=' + str(round_index) + ': survival, original randomized puzzle' in result
+        assert 'PASS: key stops mid-puzzle, releases movement, and resumes existing progress' in result
+        record['scope'] = 'key controls and three complete randomized water trials with original rewards'
+        record['transport'] = 'isolated integrated server and real movement/dig/place/inventory packets'
+        record['manametal_sha256'] = hashlib.sha256((mods / 'manametalmod-8.0.7.jar').read_bytes()).hexdigest()
     if case['tag'] in ('beehive', 'bosssummon', 'skillrow', 'outputcollect'):
         record['packetCasesSha256'] = hashlib.sha256((fixture / 'packet-cases.nbt').read_bytes()).hexdigest()
     (fixture / 'verification.json').write_text(json.dumps(record, indent=2) + '\n', encoding='utf-8')
